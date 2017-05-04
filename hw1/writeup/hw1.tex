@@ -1,0 +1,138 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\def\name{Yipeng Song, Samuel Schultz, Aaron Leondar}
+
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {cs444``operating systems II'' weekly summary},
+  pdftitle = {CS 444 first weekly summary},
+  pdfsubject = {chapter 3 and chapter 4},
+  pdfpagemode = UseNone
+}
+
+\parindent = 0.2 in
+\parskip = 0.2 in
+\title{
+\textbf{\huge{Homework 1 Writeup}} \\
+\hfill \break
+\hfill \break
+\large{CS444 -- Operating System II} \\
+\hfill \break
+\large{Professor: D. Kevin McGrath}}
+\author{\name}
+\date{April 21, 2017}
+\begin{document}
+\maketitle
+\section{Getting Started}
+\begin{itemize}
+    \item Command usage:
+        \begin{itemize}
+            \item 1 ssh xxxx@os-class.engr.oregonstate.edu (Replace xxxx by onid)
+            \item 2 mkdir /scratch/spring2017/11-07  
+            \item 3 git clone git://git.yoctoproject.org/linux-yocto-3.14 
+            \item 4 cd linux-yocto-3.14
+            \item 5 git checkout v3.14.26 
+            \item 6 source /scratch/opt/environment-setup-i586-poky-linux.csh 
+            \item 7 cp /scratch/spring2017/files/config-3.14.26-yocto-qemu .config
+            \item 8 make menuconfig
+            \item 9 press / and type in LOCALVERSION, press enter. 
+            \item 10 Hit 1, press enter and then edit the value to be -11-07-hw1
+            \item 11 Exit the window
+            \item 12 make -j4 all
+            \item 13 cd .. 
+            \item 14 gdb
+            \item 15 in terminal 2, do 6
+            \item 16 Under /scratch/spring2017/11-07, call cp /scratch/spring2017/files/bzImage-qemux86.bin .
+            \item 17 cp /scratch/spring2017/files/core-image-lsb-sdk-qemux86.ext3 .
+            \item 18 qemu-system-i386 -gdb tcp::5617 -S -nographic -kernel linux-yocto-3.14/arch/x86/boot/bzImage  -drive file=core-image-lsb-sdk-qemux86.ext3,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
+            \item 19 In terminal 1, target remote :5601
+            \item 20 continue
+            \item 21 Type root and enter
+            \item 22 Type uname -a to see the kernel name
+        \end{itemize}    
+\end{itemize}
+\section{Flag Usage}
+    Flags descriptions are:
+    \begin{itemize}
+        \item 1 -gdb: Wait for gdb connection to the kernel
+        \item 2 -s: open gdbserver on my TCP port 5617
+        \item 3 -nographic: disable graphical output
+        \item 4 -kernel bzImage Use bzImage as kernel image
+        \item 5 -drive select the file to use for the disk image
+        \item 6 -enable-kvm Enable KVM full virtualization support
+        \item 7 -net none Indicate that no network devices should be configured. 
+        \item 8 -usb Enable the USB driver 
+        \item 9 -localtime use local time (PST)
+        \item 10 -no-reboot not to reboot after exit
+        \item 11 --append use specified information as command line.
+        
+    \end{itemize}
+    
+    
+\section{Concurrent Exercise}
+\begin{itemize}
+
+    \item  What do you think the main point of this assignment is?
+    
+    To review the thread and multi-process knowledge.
+    
+    \item How did you personally approach the problem? Design decisions, algorithm, etc.
+    
+    I read the description a couple times and lay out the general structure of the code: producer and consumer. Since this project is small, I did not have much to deal with algorithm to achieve efficiency.
+    
+    
+    \item How did you ensure your solution was correct? Testing details, for instance.
+    
+    By adding some hand-driven unit tests (via print).
+    
+    
+    \item What did you learn?
+
+    This concurrent exercise is more like a review. I pick up some old materials for Operating System I.  
+    
+    
+\end{itemize}
+
+
+\section{Commit History}
+
+N/A (No commit was made)
+
+\section{Work Log}
+
+Work time log as follows: 
+
+4/9/2017 18:00-18.30 Read the assignment description twice (30 minutes)
+
+4/11/2017 11:00-12:00 Start building kernel during recitation (1 hours)
+
+4/18/2017 11:00-12:00 Find we did something wrong last time, trying to fix the problem (1 hour)
+
+4/20/2017 10:00-12:00 Build the kernel successfully (2 hours)
+
+4/20/2017 14:00-18:00, 19:00-22:00 Start working on concurrency assignment (4 hours )
+
+4/20/2017 16:00-19:00 Start editing writeup (3 hours)
+
+4/21/2017 18:00-24:00 Finish Writeup and debugging concurrency assignment (6 hours)
+\end{document}
